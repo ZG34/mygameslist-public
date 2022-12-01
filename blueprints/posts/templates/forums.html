@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Forums{% endblock %}
+
+
+{% block content %}
+    <h1>Forums</h1>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="wrapperfixed">
+        <div class="truecenter">
+            <form method="get" action="/newpost">
+                <h3><button>New Thread</button></h3>
+            </form>
+        </div>
+
+        <div class="text-center">
+            {% if pages %}
+                <a href="{{ url_for('forums', page=pages.prev_num) }}"
+                   class="btn btn-outline-dark
+                   {% if pages.page == 1 %}disabled{% endif %}">
+                    &laquo;
+                </a>
+
+                {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if pages.page == page_num %}
+                                <a href="{{ url_for('forums', page=page_num) }}"
+                                   class="btn btn-dark">
+                                    {{ page_num }}
+                                </a>
+                        {% else %}
+                            <a href="{{ url_for('forums', page=page_num) }}"
+                               class="btn btn-outline-dark">
+                                {{ page_num }}
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+                <a href="{{ url_for('forums', page=pages.next_num) }}"
+                   class="btn btn-outline-dark
+                   {% if pages.page == pages.pages %}disabled{% endif %}">
+                    &raquo;
+                </a>
+                {% endif %}
+            </div>
+
+        <div class="truecenter">
+            <div>
+                <form method="GET" action="">
+                    Sort By:
+                    <div class="sorter_filterer">{{form.selector}}</div>
+                    <div class="sorter_filterer">{{form.order_by}}</div>
+                    <div class="sorter_filterer">{{form.sort}}</div>
+<!--                    <div> DEFAULT SORT BY POPULARITY? </div>-->
+<!--                    <p>select by mentions game (in post or comment links?)</p>-->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapperfixed">
+        {% for post in posts %}
+            <div>
+                <h3><a href="/forums/{{post.title | urlencode}}"> {{post.title}} </a></h3>
+                <hr>
+                <p> Posted {{post.date_posted | humanize}} </p>
+                    <p>
+                        &#128077; {{post.like_count}}
+                    </p>
+                    {% if post.post_games.all() %}
+                    <p>
+                        <strong>Games Mentioned:</strong>
+                        {% for game in post.post_games.all() %}
+                            {{game.linkedgame.title}}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    <img src="{{url_for('display_image', filename=post.author.image_file) }}" height="30em" alt="#"/>
+                    <a href ="/profile/{{post.author.name}}"> {{post.author.name}} </a>
+            </div>
+        {% endfor %}
+    </div>
+<hr>
+</body>
+
+{% endblock %}

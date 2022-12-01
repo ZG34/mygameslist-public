@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Create New Account{% endblock %}
+
+{% block content %}
+<h1>Registration Page</h1>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="center">
+    <p> <strong>Requirements:</strong></p>
+    <p> <strong>Username:</strong> letters and numbers only </p>
+    <p> <strong>Password:</strong> at least 6 characters long </p>
+    <p> <strong>Email:</strong> must be a valid email format </p>
+
+    <form method="POST" action="">
+        <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+        <p>Username: {{ form.username }}</p>
+        <p>Password: {{ form.password }}</p>
+        <p>Email: {{ form.email }}</p>
+        <p>{{ form.privacy(class_="box") }}
+            I have read and agree to the
+            <a href="/privacypolicy" class="agreement" target="_blank" rel="noreferrer noopener">privacy policy</a>
+        </p>
+        <p>{{ form.submit }}</p>
+        {{ form.csrf_token }}
+    </form>
+</div>
+
+
+<!--<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/agreement-clicked.js') }}"></script>-->
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'admin/model/edit.html' %}
+
+{% block head_css %}
+    {{ super() }}
+{% endblock head_css %}
+
+{% block body %}
+    {{ super() }}
+<div>
+    <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+
+    EDIT GAME TEMPLATE
+</div>
+
+{% endblock %}

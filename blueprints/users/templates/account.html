@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Account Management{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>Account Page</h1>
+    <div class="center">
+        <div>
+            <p>Edit account info: </p>
+            <form action="#" method="post" name="updater" id="updater">
+                <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                <div>
+                    <div>
+                        Update Name: <input type="text" name="user" value="{{username if username}}">
+                    </div>
+                    <div>
+                        Update Email : <input type="email" name="email" value="{{email if email}}" />
+                    </div>
+                    </div>
+                <div class="btn-lg"><input type="submit" value="submit changes" ></div>
+            </form>
+        </div>
+    </div>
+    <div class="center">
+        <div>
+            <form method="post" action="/account/upload" enctype="multipart/form-data">
+                <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                <p>Change profile picture</p>
+                    <img src="{{url_for('display_image', filename=user.image_file) }}" width="200em"/>
+                <p>
+                <input type="file" name="file" class="form-control" autocomplete="off" required>
+                </p>
+                <input class="btn-lg" type="submit" value="upload">
+            </form>
+        </div>
+    </div>
+
+    <div class="single">
+        <div>
+            <button id="spoil-button" type="button">delete account?</button>
+            <div id="spoiler" class="spoiler">
+                <form method="post" action="#" name="deleter" id="deleter">
+                    <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                    <button class="delete" type="submit" id="delete" name="delete">delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/delete-confirm.js') }}"></script>
+
+
+{% endblock %}

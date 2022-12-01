@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <h3>Search Results</h3>
+    <div class="wrapper">
+        <div>
+            <h4>Users</h4>
+            {% for user in users %}
+                <div><a href="/profile/{{user.name}}">{{user.name}}</a></div>
+            {% endfor %}
+        </div>
+        <div>
+            <h4>Games</h4>
+            {% for game in games %}
+                <div><a href='/game/{{game.title}}'>{{game.title}}</a></div>
+            {% endfor %}
+        </div>
+        <div>
+            <h4>Forum Posts</h4>
+            {% for post in posts %}
+                <div><a href="/forums/{{post.title}}">{{post.title}}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

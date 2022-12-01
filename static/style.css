@@ -1,0 +1,679 @@
+body {
+  background-color: #216e94;
+  padding:1em;
+}
+
+strong.greyed {
+    color:#5A5A5A;
+}
+
+h1 {
+  color: #d9e5e9;
+  margin-left: 0.5em;
+  font-size: 3vw;
+}
+
+h2 {
+color: blue;
+margin-left: 1em;
+}
+
+h3 {
+color: navy;
+font-size: 3.5vmin;
+}
+
+#likecomment {
+    background-color:green;
+    color:green
+}
+
+#baselike {
+    background-color:grey;
+    color:grey
+}
+.heading {
+    word-wrap: break-word;
+    font-size: calc(33px + (60 - 42) * (40vw - 768px) / (1440 - 768));
+}
+
+.spanner {
+    width: 100%;
+    height: 20em;
+    background-color: #eee;
+    margin: auto;
+    width: 50%;
+    border: 3px solid white;
+    padding: 7em;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.wrapper{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.wrapper > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+
+}
+
+.wrapper > div:nth-child(odd){
+    background:#ddd;
+}
+
+.single {
+    display:grid;
+    grid-template-columns: 80%;
+    grid-row-gap:0.2em;
+    grid-auto-rows: minmax(100px, auto);
+    background:#ddd;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapperfixed{
+    display:grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+
+}
+
+.wrapperfixed > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+
+}
+
+.wrapperfixed > div:nth-child(odd){
+    background:#ddd;
+}
+
+.doublefixed{
+    display:grid;
+    grid-template-columns: 100%;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(1em,auto);
+}
+
+.doublefixed > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+}
+
+.doublefixed > div:nth-child(odd){
+    background:#ddd;
+}
+
+.dynamicwrapperfixed{
+    display:grid;
+    grid-template-columns: 100%;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.dynamicwrapperfixed > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+}
+
+.dynamicwrapperfixed > div:nth-child(odd){
+    background:#ddd;
+}
+
+div {
+    font-size: calc(25px + (60 - 42) * (40vw - 768px) / (1440 - 768));
+    word-wrap: break-word;
+}
+
+.commentreplybox {
+    width:17em;
+}
+
+
+/* mobile devices */
+@media only screen and (min-device-width: 0px) and (max-device-width: 600px) {
+    .sorter_filterer{
+        margin-top: 10px;
+    }
+
+    strong.title {
+        font-size: 4.5vmin;
+    }
+
+    .doublefixed{
+        display:grid;
+        grid-template-columns: 100%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(1em,auto);
+    }
+
+    .doublefixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .doublefixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    .dynamicwrapperfixed{
+        display:grid;
+        grid-template-columns: 100%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .dynamicwrapperfixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .dynamicwrapperfixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    div {
+        font-size: calc(31px + (60 - 42) * (40vw - 768px) / (1440 - 768));
+        word-wrap: break-word;
+    }
+
+    .commentreplybox {
+        width:17em;
+    }
+
+    .selectadjust {
+        width:90%;
+        font-size:11px;
+    }
+
+}
+
+/* laptops & tablets */
+@media only screen and (min-device-width: 600px) and (max-device-width: 1024px) {
+    strong.title {
+        font-size: 2.5vmin;
+    }
+
+    .doublefixed{
+        display:grid;
+        grid-template-columns: 100%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(1em,auto);
+    }
+
+    .doublefixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .doublefixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    .dynamicwrapperfixed{
+        display:grid;
+        grid-template-columns: 100%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .dynamicwrapperfixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .dynamicwrapperfixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    div {
+        font-size: calc(36px + (60 - 42) * (40vw - 768px) / (1440 - 768));
+        word-wrap: break-word;
+        background-color: ;
+    }
+
+    .commentreplybox {
+        width:17em;
+    }
+
+    .selectadjust {
+        width:90%;
+        font-size:11px;
+    }
+
+}
+
+
+/* Desktops */
+@media only screen and (min-width : 1025px) {
+    strong.title {
+        font-size: 2.5vmin;
+    }
+
+    .doublefixed{
+        display:grid;
+        grid-template-columns: 50% 50%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(1em,auto);
+    }
+
+    .doublefixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .doublefixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    .dynamicwrapperfixed{
+        display:grid;
+        grid-template-columns: 33% 33% 33%;
+        grid-row-gap:1em;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .dynamicwrapperfixed > div{
+        background:#eee;
+        padding:1em;
+        margin-top: 10px;
+    }
+
+    .dynamicwrapperfixed > div:nth-child(odd){
+        background:#ddd;
+    }
+
+    div {
+        font-size: calc(20px + (60 - 42) * (40vw - 768px) / (1440 - 768));
+        word-wrap: break-word;
+    }
+
+    .commentreplybox {
+        width:50em;
+    }
+
+    .selectadjust {
+        width:100%;
+    }
+
+}
+
+
+.nested{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: minmax(50px, auto);
+    grid-gap:1em;
+}
+
+.nested > div{
+    border:#333 1px solid;
+}
+
+.truecenter {
+background: #CCCCCC;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.liked {
+    background-color: #4CAF50;
+
+}
+
+form {
+    display: inline-block; //Or display: inline;
+}
+
+table, th, td {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  padding-right: 2em;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5em;
+}
+
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+{box-sizing: border-box;}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: bottom;
+  border: 3px solid #f1f1f1;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 11em;
+  padding: 10px;
+  background-color: lightblue;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 0.2em;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: navy;
+  color: white;
+  padding: 0.5em 0.7em;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:0.2em;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: darkred;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* modal close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.loadedTagify {
+  color: black;
+  background-color: white;
+}
+
+.tagMe:disabled {
+  color: black;
+  background-color: white;
+}
+
+.tagify {
+  color: black;
+  background-color: white;
+}
+
+
+.collapsable_comment{
+    width:90%;
+    border:solid 1px;
+}
+
+.title_bar{
+    height: 2em;
+    width: 100%;
+}
+.max_min_button{
+    border: solid 1px;
+    width: 8em;
+    height: 2em;
+    float:right;
+    cursor:pointer;
+    text-align: center;
+}
+.commentbody{
+    padding: 1em;
+    background: #DFDFDF;
+}
+
+button.is-recommended{
+    font-size:100%;
+    color:gold;
+    background-color:darkgreen;
+}
+
+button.is-not-recommended{
+    font-size:100%;
+    color:gold;
+    background-color:grey;
+}
+
+button.recommend-button{
+    margin:.5em;
+    background-color:lightblue
+}
+
+div.white-bg{
+    background-color:white
+}
+
+input.submit{
+    background-color:darkred;
+    color:white
+}
+
+.delete{
+    background-color:darkred;
+    color:white;
+}
+
+.home-user{
+    width:1em;
+    height:auto
+}
+
+
+
+
+
+
+
+
+/* are the below classes in use? */
+
+.large {
+    font-size: 120%
+}
+
+.imgsmaller {
+    max-width: auto;
+    height: 100%;
+    width: auto\9; /* ie8 */
+}
+
+.center {
+    width:100%;
+    background: #eee;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.centertext {
+    width:100%;
+    background: #eee;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    font-size: 3.5vmin;
+    word-wrap: normal;
+}
+
+. {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top: 300px;
+}
+
+.threeoneone{
+    display:grid;
+    grid-template-columns: 35% 35% 31%;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.threeoneone > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+}
+
+.threeoneone > div:nth-child(odd){
+    background:#ddd;
+}
+
+.double{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.double > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+}
+
+.double > div:nth-child(odd){
+    background:#ddd;
+}
+
+.threetwo{
+    display:grid;
+    grid-template-columns: 3fr 2fr;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.threetwo > div{
+    padding-right:0.5em;
+}
+
+.quad{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-row-gap:1em;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.quad > div{
+    background:#eee;
+    padding:1em;
+    margin-top: 10px;
+}
+
+.quad > div:nth-child(odd){
+    background:#ddd;
+}

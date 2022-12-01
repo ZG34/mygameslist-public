@@ -1,0 +1,9 @@
+    $('.owl-carousel').owlCarousel({
+        items:3,
+        loop:false,
+        margin:10,
+        startPosition:1,
+        autoWidth:false,
+        autoplay:true,
+        rewind:true,
+    });

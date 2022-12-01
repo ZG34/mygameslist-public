@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block title %}Game List{% endblock %}
+
+{% block content %}
+    <h1>{{user.name}}'s Game List</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<div class="wrapper">
+    <div>
+        <form method="GET" action="" id="mylistform">
+<!--                {{my_list_form.csrf_token}}-->
+            <div>
+                <div class="sorter_filterer">{{my_list_form.game_sorter.selector}}</div>
+                <div class="sorter_filterer">{{my_list_form.game_sorter.order_by}}</div>
+                <div class="sorter_filterer">{{my_list_form.game_filter.starts_with}}</div>
+                <div class="sorter_filterer">{{my_list_form.game_filter.category_filter}}</div>
+                <div class="sorter_filterer">{{my_list_form.game_filter.status}}</div>
+            </div>
+        </form>
+    </div>
+
+    {% if from_base is false %}
+          <div class="text-center">
+        {% if pages %}
+        <a href="{{ url_for('mylist', username=session['user'], search_query=1, page=pages.prev_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == 1 %}disabled{% endif %}">
+            &laquo;
+        </a>
+
+        {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if pages.page == page_num %}
+                        <a href="{{ url_for('mylist', username=session['user'], search_query=1, page=page_num) }}"
+                           class="btn btn-dark">
+                            {{ page_num }}
+                        </a>
+                {% else %}
+
+                    <a href="{{ url_for('mylist', username=session['user'], search_query=1, page=page_num) }}"
+                       class="btn btn-outline-dark">
+                        {{ page_num }}
+                    </a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        <a href="{{ url_for('mylist', username=session['user'], search_query=1,  page=pages.next_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == pages.pages %}disabled{% endif %}">
+            &raquo;
+        </a>
+        {% endif %}
+    </div>
+    {% else %}
+        <div class="text-center">
+        {% if pages %}
+        <a href="{{ url_for('mylist', username=session['user'], search_query=0, page=pages.prev_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == 1 %}disabled{% endif %}">
+            &laquo;
+        </a>
+
+        {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if pages.page == page_num %}
+                        <a href="{{ url_for('mylist', username=session['user'], search_query=0, page=page_num) }}"
+                           class="btn btn-dark">
+                            {{ page_num }}
+                        </a>
+                {% else %}
+
+                    <a href="{{ url_for('mylist', username=session['user'], search_query=0, page=page_num) }}"
+                       class="btn btn-outline-dark">
+                        {{ page_num }}
+                    </a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        <a href="{{ url_for('mylist', username=session['user'], search_query=0,  page=pages.next_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == pages.pages %}disabled{% endif %}">
+            &raquo;
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+
+    <div class="truecenter">
+
+    </div>
+</div>
+
+
+    {% if user.name == session['user'] %}
+        {% for game in users_games %}
+            <div class="wrapperfixed">
+                {% if game.game_image != None %}
+                    <div><img src="{{ game.game_image }}" alt="#"/></div>
+                {% else %}
+                    <div><img src="about:blank" height="100" alt="#"/></div>
+                {% endif %}
+
+                <div>
+                <div class="centertext"><strong class="title"><a href='/game/{{game.title | urlencode }}'> {{game.title}} </a></strong></div>
+
+
+                    <p></p>
+                <div>Avg.Score: <strong>{{game.average_score}}/10 </strong></div>
+                    <p></p>
+                <div>&#xe125 {{game.ratings_count}}</div>
+                </div>
+                <div>
+                    <form method="POST" action="/updategame/{{game.title | urlencode }}">
+                        <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+                        {% for line in details %}
+                            {% if game._id == line.game_id %}
+                            <div>
+                                <label for="status">Game Status:</label>
+                                    <select id="status" name="status" class="selectadjust">
+                                        <option value="{{line.status}}">{{line.status}}</option>
+                                        <option value="want to play">want to play</option>
+                                        <option value="completed">completed</option>
+                                        <option value="playing">playing</option>
+                                        <option value="dropped">dropped</option>
+                                    </select>
+                            </div>
+                            <p></p>
+                            <div>
+                                <label for="score">Your Score:</label>
+                                <div></div>
+                                    <select id="score" name="score" class="selectadjust">
+                                        <option value="{{line.score}}">{{line.score}}</option>
+                                        <option value="10">10</option>
+                                        <option value="9">9</option>
+                                        <option value="8">8</option>
+                                        <option value="7">7</option>
+                                        <option value="6">6</option>
+                                        <option value="5">5</option>
+                                        <option value="4">4</option>
+                                        <option value="3">3</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                                <p></p>
+                                <input type="submit" value="Update" name="submit_button">
+                                <p></p>
+                                <p>Added to Your List {{line.date_added | humanize}}</p>
+                                <p></p>
+                                <input type="submit" value="Delete" name="submit_button" class="submit">
+                            {% endif %}
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        {% endfor%}
+    {% else %}
+        {% for game in users_games %}
+            <div class="wrapper">
+                {% if game.game_image != None %}
+                    <div><img src="{{ game.game_image }}" height="100" alt="#"/></div>
+                {% else %}
+                    <div><img src="about:blank" height="100" alt="#"/></div>
+                {% endif %}
+
+                <div>
+                    <div class="centertext"><strong class="title"><a href='/game/{{game.title | urlencode }}'> {{game.title}} </a></strong></div>
+                </div>
+                {% for line in details %}
+                    {% if game._id == line.game_id %}
+                    <div>
+                        <p>{{user.name}}'s Status: {{line.status}} </p>
+                        <p>{{user.name}}'s Score: {{line.score}}</p>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor%}
+    {% endif %}
+
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/mylist-refresh.js') }}"></script>
+
+
+{% endblock %}

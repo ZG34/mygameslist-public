@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<form method="post">
+    <input type="search" name="searcher" id="searcher" placeholder="search here">
+
+    <button type="submit" name="export" id="export" value="export">export</button>
+    <button type="submit" name="delete" id="delete" value="delete">delete</button>
+</form>
+
+
+
+<div>
+    {% for line in logger %}
+    <div>
+        <textarea style="width:100%" disabled>
+            {{line}}
+        </textarea>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock body %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}New Post{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <!-- TAG SCRIPTS   - must super() to inherit from base and avoid complete overwrite -->
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+    <link href="/static/tagit/jquery.tagit.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<div class="center">
+    <div>
+    <form method="POST" action="">
+        <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+        <div>Title</div>
+        <div>{{ form.title }}</div>
+        <div>Body</div>
+        <div>{{ form.body }}</div>
+        <p id="showPostLen">0/200</p>
+
+        <div class="nested"> {{ form.submit }}</div>
+        {{ form.csrf_token }}
+
+        <div>Linked Games</div>
+        <ul id="gameTags">
+            <!-- Existing list items will be pre-added to the tags -->
+                    <li>{{game_name if game_name}}</li>
+        </ul>
+    </form>
+    </div>
+</div>
+
+{% block javascript %}
+    <script nonce="{{ csp_nonce() }}" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script nonce="{{ csp_nonce() }}" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script nonce="{{ csp_nonce() }}" src="/static/tagit/tag-it.js" type="text/javascript" charset="utf-8"></script>
+    <!--script #1 is for search bar autocomplete-->
+    <script type="text/javascript" nonce="{{ csp_nonce() }}">
+        {% include "javascript/gamesearch.js" %}
+    </script>
+
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/newpost-charcount.js') }}"></script>
+
+{% endblock %}
+
+{% endblock %}

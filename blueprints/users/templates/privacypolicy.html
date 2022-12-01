@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<h1>Privacy Policy</h1>
+
+<div class="center">
+    <h2>MyGamesListApp Privacy Policy</h2>
+    <p>This Privacy Policy describes how your personal information is collected, used, and shared when you visit https://mygameslistapp.herokuapp.com/ (the “Site”).</p>
+    <hr>
+    <h5>PERSONAL INFORMATION WE COLLECT</h5>
+    <p>When you visit the Site, we automatically collect certain information about your device, including information about your web browser, time zone, and some of the cookies that are installed on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products that you view, what websites or search terms referred you to the Site, and information about how you interact with the Site. We refer to this automatically-collected information as “Device Information.”</p>
+    <p>We collect Device Information using the following technologies:</p>
+    <div>
+        <div><strong>When you access the site</strong></div>
+        <div>
+            - “Cookies” are data files that are placed on your device or computer and often include an anonymous unique identifier. For more information about cookies, and how to disable cookies, visit http://www.allaboutcookies.org.
+        </div>
+        <div>
+            - “Log files” track actions occurring on the Site, and collect data including your browser type, referring/exit pages, and date/time stamps.
+        </div>
+        <div><strong>When you create an account</strong></div>
+        <div>
+            - "Email Address" is stored, and used solely for account recovery.
+        </div>
+    </div>
+    <hr>
+    <p>When we talk about “Personal Information” in this Privacy Policy, we are talking both about Device Information and any registered Email Address.</p>
+    <h5>HOW DO WE USE YOUR PERSONAL INFORMATION?</h5>
+
+    <p>We use the Device Information that we collect to improve and optimize our Site (for example, by generating analytics about how users browse and interact with the Site).</p>
+    <p>We use the collected Email Address for account security and recovery.</p>
+
+    <div>
+    <h5>SHARING YOUR PERSONAL INFORMATION</h5>
+        <div>
+            We share your Personal Information with third parties to help us use your Personal Information, as described above.  For example, we use Heroku for our hosting. See how Heroku handles their security and data policy here: <a href="https://www.heroku.com/policy/security">https://www.heroku.com/policy/security</a>.
+            Finally, we may also share your Personal Information to comply with applicable laws and regulations, to respond to a subpoena, search warrant or other lawful request for information we receive, or to otherwise protect our rights.
+        </div>
+        <hr>
+        <strong>DO NOT TRACK</strong>
+        <div>
+            Please note that we do not alter our Site’s data collection and use practices when we see a Do Not Track signal from your browser.
+        </div>
+        <strong>YOUR RIGHTS</strong>
+        <div>
+            If you are a European resident, you have the right to access personal information we hold about you and to ask that your personal information be corrected, updated, or deleted. If you would like to exercise this right, please contact us through the contact information below.
+            Additionally, if you are a European resident we note that we are processing your information in order to fulfill contracts we might have with you (registration and recovery of your account on this Site), or otherwise to pursue our legitimate business interests listed above.  Additionally, please note that your information will be transferred outside of Europe, including to Canada and the United States.
+        </div>
+
+        <strong>DATA RETENTION</strong>
+        <div>We will maintain your information for our records unless and until you ask us to delete this information.</div>
+
+        <strong>CHANGES</strong>
+        <div>
+            We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal or regulatory reasons.
+        </div>
+            <strong>CONTACT US</strong>
+        <div>
+            For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at my.games.list.runner@gmail.com
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block head %}
+    {{ super() }}
+
+{% endblock %}
+
+{% block content %}
+<h1>Profile Page</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<div class="dynamicwrapperfixed">
+    <div>
+        <h3>{{user.name}}'s Profile</h3>
+        <hr>
+        <div>
+            <img src="{{url_for('display_image', filename=user.image_file) }}" width="80em"/>
+
+            {% if session['user'] == user.name %}
+                <div class="nested"><a href="{{url_for('account')}}"><strong>Edit Account Info</strong></a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <h3>User Stats</h3>
+        <hr>
+        <strong class="title">{{user.name}} has...</strong>
+        <p>Posted <strong>{{num_posts}}</strong> forum entries.</p>
+        <p>Commented <strong>{{num_comments}}</strong> times.</p>
+        <p>Liked <strong>{{num_likes}}</strong> posts.</p>
+        <p>Added <strong>{{num_games}}</strong> games to their game list.</p>
+        <p>Has suggested or endorsed <strong>{{num_suggestions}}</strong> games.</p>
+
+<!--        <p> ADD ACHIEVEMENTS / MILESTONES? LEADERBOARD </p>-->
+
+    </div>
+
+    <div>
+        <h3>Game List Information</h3>
+        <hr>
+        <div>
+            <a href="/profile/gamelist/{{user.name}}">
+                <strong>Go To {{user.name}}'s Game List</strong>
+            </a>
+        </div>
+            <table>
+                <tr>
+                    <th>Currently Playing:</th>
+                    <td>{{playing_games}}</td>
+                  </tr>
+                  <tr>
+                    <th>Has Completed:</th>
+                    <td>{{ completed_games }}</td>
+                  </tr>
+                  <tr>
+                    <th>Wants to Play:</th>
+                    <td>{{ want_to_play_games }}</td>
+                  </tr>
+                  <tr>
+                    <th>Quit Playing:</th>
+                    <td>{{ dropped_games }}</td>
+                  </tr>
+                   <tr>
+                    <th>Average Rating:</th>
+                    <td>{{ average_rating }}</td>
+                  </tr>
+            </table>
+    </div>
+
+    <div>
+        <h3>Forum Posts</h3>
+        <hr>
+        {% for post in user_posts %}
+            <div><a href="/forums/{{post.title}}"> {{post.title}} </a></div>
+            <p> {{post.date_posted | humanize }} </p>
+        {% endfor %}
+    </div>
+</div>
+<p></p>
+
+
+{% endblock %}

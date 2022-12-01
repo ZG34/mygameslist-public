@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}Browse Games{% endblock %}
+
+{% block content %}
+<h1>Browse Games</h1>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="wrapperfixed">
+    <div>
+        <form method="GET" action="" id="browseform">
+            <div>
+                <div class="sorter_filterer">{{browse_form.game_sorter.selector}}</div>
+                <div class="sorter_filterer">{{browse_form.game_sorter.order_by}}</div>
+                <div class="sorter_filterer">{{browse_form.game_filter.starts_with}}</div>
+                <div class="sorter_filterer">{{browse_form.game_filter.category_filter}}</div>
+            </div>
+        </form>
+    </div>
+
+    {% if from_base is false %}
+    <div class="text-center">
+        {% if pages %}
+        <a href="{{ url_for('browse', search_query=1, page=pages.prev_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == 1 %}disabled{% endif %}">
+            &laquo;
+        </a>
+
+        {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if pages.page == page_num %}
+                        <a href="{{ url_for('browse', search_query=1, page=page_num) }}"
+                           class="btn btn-dark">
+                            {{ page_num }}
+                        </a>
+                {% else %}
+
+                    <a href="{{ url_for('browse', search_query=1, page=page_num) }}"
+                       class="btn btn-outline-dark">
+                        {{ page_num }}
+                    </a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        <a href="{{ url_for('browse', search_query=1,  page=pages.next_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == pages.pages %}disabled{% endif %}">
+            &raquo;
+        </a>
+        {% endif %}
+    </div>
+    {% else %}
+        <div class="text-center">
+        {% if pages %}
+        <a href="{{ url_for('browse', search_query=0, page=pages.prev_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == 1 %}disabled{% endif %}">
+            &laquo;
+        </a>
+
+        {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if pages.page == page_num %}
+                        <a href="{{ url_for('browse', search_query=0, page=page_num) }}"
+                           class="btn btn-dark">
+                            {{ page_num }}
+                        </a>
+                {% else %}
+
+                    <a href="{{ url_for('browse', search_query=0, page=page_num) }}"
+                       class="btn btn-outline-dark">
+                        {{ page_num }}
+                    </a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        <a href="{{ url_for('browse', search_query=0,  page=pages.next_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == pages.pages %}disabled{% endif %}">
+            &raquo;
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div>
+            <div>
+            {% if 'user' in session %}
+            <button id="open">Request a game be added to the database</button>
+
+            <div class="form-popup" id="myForm">
+                <form action="/requestgame" class="form-container" method="POST">
+                    <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                    <input type="text" placeholder="Enter Game Title" name="title" required>
+                    <button type="submit" class="btn">Submit</button>
+                    <button type="button" class="btn cancel" id="close">Close</button>
+                </form>
+            {% else %}
+                    <div>
+                        <a href="{{url_for('register')}}">create an account</a>
+                        /
+                        <a href="{{url_for('login')}}">login</a>
+                        to submit a request.
+                    </div>
+                <button id="open" disabled="true">Suggest a game to be added to the database</button>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% for game in games %}
+    <div class="wrapperfixed">
+        <div>
+        <a href="/game/{{game.title | urlencode }}">
+        {% if game.game_image != None %}
+            <img src="{{ game.game_image }}" alt="#"/>
+        {% else %}
+            <img src="about:blank" height="100" alt="#"/>
+        {% endif %}
+            <p></p>
+            see details
+        </a>
+        </div>
+        <div>
+            <div class="centertext"><strong class="title"><a href='/game/{{game.title | urlencode }}'> {{game.title}} </a></strong></div>
+            <p></p>
+            <div>Avg.Score: <strong>{{game.average_score}}/10 </strong></div>
+            <p></p>
+            <div>&#xe125 {{game.ratings_count}}</div>
+        </div>
+        <div>
+            {% if 'user' in session %}
+                <form method="POST" action="">
+                <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                {% if game._id in user_game_list %}
+                    {% for line in details %}
+                        {% if game._id == line.game_id %}
+                            <strong class="greyed">
+                                Already on <a href="/profile/gamelist/{{session['user']}}">Your List</a>
+                            </strong><p></p>
+                            <div>Game Status: <br><strong>{{ line.status }}</strong></div><br>
+                            <div>Your Score: <br><strong>{{ line.score }}</strong></div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+
+                    <p></p>
+                    <div>Game Status:<br>{{ add_game_form.status(class_="selectadjust") }}</div>
+                    <div>Your Score:<br>{{ add_game_form.score(class_="selectadjust") }}</div>
+                    <p></p>
+                    <div>{{ add_game_form.submit(class_="selectadjust") }}</div>
+                    {{ add_game_form.game(value=game.title) }}
+                    {{ add_game_form.csrf_token }}
+                {% endif %}
+                </form>
+            {% else %}
+                <strong>Add to My Games</strong>
+                <div>Game Status:<br>{{ add_game_form.status(class_="selectadjust") }}</div>
+                <div>Your Score:<br>{{ add_game_form.score(class_="selectadjust") }}</div>
+                <div>{{ add_game_form.submit(disabled=True, class_="selectadjust") }}</div>
+                <div>
+                    <a href="{{url_for('register')}}">create an account</a>
+                    /
+                    <a href="{{url_for('login')}}">login</a>
+                    to add games to list.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endfor%}
+
+
+<div class="text-center">
+    {% if pages %}
+    <a href="{{ url_for('browse', page=pages.prev_num) }}"
+       class="btn btn-outline-dark
+       {% if pages.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+    {% for page_num in pages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if pages.page == page_num %}
+                <a href="{{ url_for('browse', page=page_num) }}"
+                class="btn btn-dark">
+                {{ page_num }}
+                </a>
+            {% else %}
+                <a href="{{ url_for('browse', page=page_num) }}"
+                   class="btn btn-outline-dark">
+                    {{ page_num }}
+                </a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+        <a href="{{ url_for('browse', page=pages.next_num) }}"
+           class="btn btn-outline-dark
+           {% if pages.page == pages.pages %}disabled{% endif %}">
+            &raquo;
+        </a>
+    </div>
+    <p class="text-right mt-3">
+       Showing page {{ pages.page }} of {{ pages.pages }}
+    </p>
+    {% endif %}
+
+
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/browse-refresher.js') }}"></script>
+<!-- script is for suggesting game to be added to DB. DO I NEED HERE if in base? -->
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/formopen.js') }}"></script>
+
+
+
+{% endblock %}

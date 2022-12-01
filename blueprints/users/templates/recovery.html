@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Forgot Account{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="wrapper">
+    <div>
+        <div>
+            <h3>Recover Account</h3>
+            <p>After submitting, if the address entered is registered to an account you will receive an email </p>
+        </div>
+    </div>
+    <div>
+        <form method="POST" action="">
+            <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+            <div>{{ form.email }}</div>
+            <div>{{ form.submit }}</div>
+            {{ form.csrf_token }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

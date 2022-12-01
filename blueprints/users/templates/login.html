@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+<h1>Login Page</h1>
+
+<div class="center">
+    <p>Dont have an account? <a href="{{url_for('register')}}">Register New Account</a></p>
+
+    <form action="#" method="post">
+        <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+        <p>Username:</p>
+        <p><input type="text" name="name" ></p>
+        <p>Password:</p>
+        <p><input type="password" name="pw" ></p>
+        <p>Forgot username or password? <a href="{{url_for('recovery')}}">Click here</a></p>
+
+        <p><input type="submit" value="Login" ></p>
+    </form>
+</div>
+
+{% endblock %}

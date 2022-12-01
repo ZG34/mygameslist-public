@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}View Post{% endblock %}
+
+{% block head %}
+    {{ super() }}
+
+    <!--tagify scripts and links-->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<div class="center">
+    <div>
+        <h3><strong>{{post.title}}</strong></h3>
+        <form method="POST" action="">
+            <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+            <p>
+                {{ post_likes_total }}
+                {% if post_like_checker %}
+                    {% if post_like_checker.like %}
+                        {{ post_like_form.like(class_="liked", disabled=True) }}
+                        |
+                        {{ post_like_form.dislike }}
+                    {% else %}
+                        {{ post_like_form.like }}
+                        |
+                        {{ post_like_form.dislike(class_="liked", disabled=True) }}
+                    {% endif %}
+                {% else %}
+                    {{ post_like_form.like }}
+                    |
+                    {{ post_like_form.dislike }}
+                {% endif %}
+            </p>
+            {{ post_like_form.csrf_token }}
+        </form>
+    </div>
+    <div class="nested">
+        {{post.body}}
+    </div>
+    <div class="nested">
+        <div>
+            <img src="{{url_for('display_image', filename=post.author.image_file) }}" height="50px"/>
+            <a href ="/profile/{{post.author.name}}">{{post.author.name}}</a>
+            posted {{post.date_posted | humanize}}
+        </div>
+        <div>
+        Linked Game(s):
+        {% for game in linked_games %}
+            <div><a href="/game/{{game.title | urlencode }}">{{game.title}}</a></div>
+        {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div>
+        <strong>Comments</strong>
+        <div>
+            <form method="GET" action="">
+                <div>Sort By: {{comment_sort_form.selector}} {{comment_sort_form.order_by}} {{comment_sort_form.sort}}</div>
+            </form>
+        </div>
+        <p></p>
+        <div>
+            <form method="POST" action="">
+                <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                {% if 'user' in session %}
+                    <div class="commentreplybox">{{ reply_form.body(placeholder="add comment") }}</div>
+                        <p id="showCommentLen">0/200</p>
+
+                    <div>{{ reply_form.submit }}</div>
+                    {{ reply_form.csrf_token }}
+                {% else %}
+                    <div class="commentreplybox">{{ reply_form.body(disabled=True) }}</div>
+                    <div aria-disabled="true">{{ reply_form.submit(disabled=True) }}</div>
+                    <div><a href="{{url_for('register')}}">create an account</a> / <a href="{{url_for('login')}}">login</a> to post a reply.</div>
+                {% endif %}
+            </form>
+        </div>
+        <hr>
+        {% for comment in comments %}
+            <!--  if user logged, and user_id in comment_like, and comment_liked_id = comment_id, change appearance      -->
+            <div class="collapsable_comment">
+                <div class="title_bar">
+                    <form method="POST" action="">
+                        <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                        <textarea name="commentid" id="commentid" hidden>{{comment._id}}</textarea>
+                        {% if user %}
+                            {% if comment.likes.filter_by(user_id=user._id, like=True).first() %}
+                                <p>
+                                        <button disabled id="likecomment" class="{{comment_like_form.like}}" &#128077;</button>
+                                        <button id="baselike" class="{{comment_like_form.dislike}}" &#128078;</button>
+                                    | {{comment.like_count}}
+                                </p>
+                            {% elif comment.likes.filter_by(user_id=user._id, like=False).first() %}
+                                <p>
+                                        <button id="baselike" class="{{comment_like_form.like}}" &#128077;</button>
+                                        <button disabled id="likecomment" class="{{comment_like_form.dislike}}" &#128078;</button>
+                                    | {{comment.like_count}}
+                                </p>
+                            {% else %}
+                                <p>
+                                    <button id="baselike" class="{{comment_like_form.like}}" &#128077;</button>
+                                    <button id="baselike" class="{{comment_like_form.dislike}}" &#128078;</button>
+                                    | {{comment.like_count}}
+                                </p>
+                            {% endif %}
+                        {% else %}
+                            <p>
+                                <button disabled id="baselike" class="{{comment_like_form.like}}" &#128077;</button>
+                                <button disabled id="baselike" class="{{comment_like_form.dislike}}" &#128078;</button>
+                                | {{comment.like_count}}
+                            </p>
+                        {% endif %}
+
+                            {{ comment_like_form.csrf_token }}
+                    </form>
+                    <div class="max_min_button">-</div>
+                </div>
+                    <div class="commentbody">
+                        <textarea class="tagMe" name="loadedBody" readonly>{{ comment.body|escape }}</textarea>
+                    <div>
+                        {{comment.date_posted | humanize}} by
+                        <a href="/profile/{{comment.commenter.name}}">{{comment.commenter.name}}</a>
+                        {% if comment.commenter.name == session['user'] %}
+                            <form method="post">
+                                <input type="hidden" name="__Secure-_csrf_token" value="{{ csrf_token() }}">
+
+                                <textarea name="commentid" id="commentid" hidden>{{comment._id}}</textarea>
+
+                                edit /
+                                <button name="delete" id="delete" value="comment-delete">delete</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+    <p></p>
+</div>
+
+{% block javascript %}
+    <script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <script nonce="{{ csp_nonce() }}" src="/static/jquery-3.6.1.min.js"></script>
+
+    <!-- for minimize comment sections -->
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/viewpost-minimize-comment.js') }}"></script>
+
+    <script nonce="{{ csp_nonce() }}">
+        {% include "javascript/comment-new-tags.js" %}
+    </script>
+
+
+    <!--script to iterate tagify over loadedBody comments-->
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/comment-load-tags.js') }}"></script>
+
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/reply-charcount.js') }}"></script>
+
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/delete-confirm.js') }}"></script>
+
+
+
+
+{% endblock %}
+
+{% endblock %}

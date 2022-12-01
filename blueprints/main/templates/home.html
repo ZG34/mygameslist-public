@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block head %}
+    {{ super() }}
+
+    <!-- script for splider   -->
+    <script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css">
+
+{% endblock %}
+
+{% block content %}
+
+{% if 'user' in session %}
+<h1>Home Page | Welcome, {{session['user']}}</h1>
+{% else %}
+<h1>Home Page</h1>
+{% endif %}
+
+<p></p>
+<div class="single">
+    Curious about what to play? Want to discuss or suggest some games? Welcome!
+</div>
+<p></p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+<div class="doublefixed">
+
+<div>
+    <h3>Currently Popular Games</h3>
+    <hr>
+    <section class="splide">
+        <div class="splide__track">
+                <ul class="splide__list">
+                    {% for game in popular_games %}
+                        <li class="splide__slide">
+                            <a href='/game/{{game.title | urlencode}}'>
+                                {% if game.game_image != None %}
+                                    <div><img class="" src="{{ game.game_image }}" alt="#"/></div>
+                                {% else %}
+                                    <div><img src="about:blank" height="100" alt="#"/></div>
+                                {% endif %}
+                                <div>
+                                    <strong>
+                                        {{game.title}}
+                                    </strong>
+                                </div>
+                            </a>
+                            <div>
+                                <div>&starf;<strong>{{game.average_score}}/10</strong></div>
+                                <div>&#xe125; {{game.ratings_count}}</div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+    </section>
+
+</div>
+
+
+<div>
+    <h3>Game Suggestions For You</h3>
+    <hr>
+    {% if recommended %}
+        <section class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    {% for game in recommended %}
+                        <li class="splide__slide">
+                            <div>
+                                <a href='/game/{{game.title | urlencode }}'>
+                                    {% if game.game_image != None %}
+                                        <div><img src="{{ game.game_image }}" alt="#"/></div>
+                                    {% else %}
+                                        <div><img src="about:blank" height="100" alt="#"/></div>
+                                    {% endif %}
+                                    <strong>
+                                        {{game.title}}
+                                    </strong>
+                                </a>
+                            </div>
+                            <div>
+                                {% if game != None %}
+                                    {{game.date_added | humanize}}
+                                {% endif %}
+                            </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+    {% elif "user" in session %}
+        <p>Working to gather some good recommendations!</p>
+        <p>Check back soon.</p>
+    {% else %}
+        <div>Log in to receive recommendations</div>
+    {% endif %}
+
+
+</div>
+
+
+<div>
+    <h3>Popular Forum Posts</h3>
+    <hr>
+    <section class="splide">
+      <div class="splide__track">
+            <ul class="splide__list">
+                {% for post in popular_posts %}
+                    <li class="splide__slide">
+                        <div>
+                            <a href="/forums/{{post.title}}">{{post.title}}</a>
+                            <div>Last Active:</div>
+                            <div>{{post.newest_comment | humanize}}</div>
+                            <p></p>
+                            <div>
+                                posted by
+                                <a href="/profile/{{post.author.name}}">
+                                    {{post.author.name}}
+                                </a>
+                            </div>
+                            <p></p>
+                            <div>
+                                    <p>&#128077; {{ (post.likes.filter_by(like=True).all() | length ) -
+                                    (post.likes.filter_by(like=False).all() | length)}}</p>
+                            </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+      </div>
+    </section>
+</div>
+
+
+
+<div>
+    <h3>New Additions</h3>
+    <hr>
+    <section class="splide">
+      <div class="splide__track">
+            <ul class="splide__list">
+                {% for game in recentgames %}
+                    <li class="splide__slide">
+                        <div>
+                            <a href='/game/{{game.title | urlencode }}'>
+                                {% if game.game_image != None %}
+                                    <div><img src="{{ game.game_image }}" alt="#"/></div>
+                                {% else %}
+                                    <div><img src="about:blank" height="100" alt="#"/></div>
+                                {% endif %}
+                                <strong>
+                                    {{game.title}}
+                                </strong>
+                            </a>
+                        </div>
+                        <div>
+                            {{game.date_added | humanize}}
+                        </div>
+                </li>
+                {% endfor %}
+            </ul>
+      </div>
+    </section>
+</div>
+</div>
+<p></p>
+
+
+{% block javascript %}
+    <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/splide.js') }}"></script>
+{% endblock %}
+
+{% endblock %}
