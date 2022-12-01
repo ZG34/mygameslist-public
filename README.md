@@ -1,4 +1,9 @@
 # mygameslist-public
+
+## What Is This Project?
+Think IMDB or MAL, but for video games. 
+
+It is a website. On it, a user may create a list of their favorite games, games they want to play, and so on. Users may view each-others lists, make suggestions for each other, comment and interact on the forums, and find fresh game suggestions generated via a suggestion system built on collaberative filtering.
  
 ---
 
