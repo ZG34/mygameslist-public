@@ -3,7 +3,16 @@
 ---
 
 ## Preview
-video of running
+
+Note: recording software is hiding some dropdown menues. [begins at 0:57 in first video]
+
+
+
+https://user-images.githubusercontent.com/96399096/204991206-c783e491-35b7-4112-a1bc-16806bb948cc.mov
+
+
+https://user-images.githubusercontent.com/96399096/204991216-fa8bf13e-b4ea-4097-bf7a-c5506bc8097a.mov
+
 
 
 ---
