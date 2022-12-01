@@ -45,11 +45,11 @@ RUNNING LOCALLY:
 ---
 
 ### Project Structure
+#### Root
 * app start-up via wsgi.py
 * configs are in app.py
 
-/ / / / / /
-
+#### Folders
 * **/ templates:** base html templates, and js rendering dynamically via app.context_processor 
 * **/ static:** js libraries, css stylesheets, and profile pics
 * **/ objects:** flask HTML forms, database objects, game recommender
